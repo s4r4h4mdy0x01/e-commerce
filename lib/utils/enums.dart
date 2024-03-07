@@ -1,0 +1,4 @@
+enum AuthEnumForm {
+  login,
+  register,
+}
