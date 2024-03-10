@@ -1,5 +1,5 @@
 class AppRoute {
-  static const String splashScreen = '/';
-  static const String auth = '/auth';
-
+  static const String splashScreenRoute = '/';
+  static const String authRoute = '/auth';
+  static const String bottomNavbarRoute = '/bottomNavbar';
 }

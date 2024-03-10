@@ -1,5 +1,6 @@
 import 'package:e_commerce/utils/app_string.dart';
 import 'package:e_commerce/utils/enums.dart';
+import 'package:e_commerce/utils/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,7 +13,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  final GlobalKey _keyForm = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   AuthEnumForm _enum = AuthEnumForm.login;
@@ -23,7 +24,7 @@ class _AuthScreenState extends State<AuthScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 64),
           child: Form(
-            key: _keyForm,
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -45,7 +46,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     hintText: AppString.enterEmail,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.red,
                       ),
                     ),
@@ -86,9 +87,13 @@ class _AuthScreenState extends State<AuthScreen> {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor:  Theme.of(context).primaryColor),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        Navigator.pushNamed(context,AppRoute.bottomNavbarRoute);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor),
                     child: Text(
                       _enum == AuthEnumForm.login
                           ? AppString.login
@@ -103,6 +108,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   alignment: Alignment.center,
                   child: InkWell(
                     onTap: () {
+                      _formKey.currentState!.reset();
                       setState(() {
                         if (_enum == AuthEnumForm.login) {
                           _enum = AuthEnumForm.register;
@@ -133,5 +139,12 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.clear();
+    _passwordController.clear();
+    super.dispose();
   }
 }

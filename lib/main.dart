@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       onGenerateRoute: RouteGenerate.onGenerate,
-      initialRoute: AppRoute.auth,
+      initialRoute: AppRoute.authRoute,
     );
   }
 }
